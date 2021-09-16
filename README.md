@@ -21,6 +21,9 @@ jobs:
         shell: bash
 ```
 
+## ToDo
+It supports only Ubuntu18.04(melodic)
+
 # Refs
 [複合実行ステップ アクションの作成](https://docs.github.com/ja/actions/creating-actions/creating-a-composite-run-steps-action)
 >>>>>>> 913cc27 (add README.md)

@@ -27,7 +27,6 @@ runs:
       working-directory: ${{ env.WS_PATH }}
     - name: workspace setup
       run: |
-        echo $ROS_DISTRO
         sudo apt update
         cd ${{ env.WS_PATH }}
         ${{ github.action_path }}/scripts/rosdep_install.sh ${{ env.WS_PATH }} $ROS_DISTRO

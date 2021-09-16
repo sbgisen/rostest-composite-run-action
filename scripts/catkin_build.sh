@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /opt/ros/melodic/setup.bash
+source /opt/ros/${1}/setup.bash
 catkin clean -y
 catkin config --extend /opt/ros/${1}
 catkin config --no-blacklist
