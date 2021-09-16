@@ -16,7 +16,7 @@ jobs:
       - id: rostest
         uses: sbgisen/rostest-composite-run-action@v1
       - name: Clenaup workspace
-        run: rm -rf ${{ steps.rostest.outputs.workspace_dir }}
+        run: rm -rf ${{ steps.rostest.outputs.workspace-dir }}
         shell: bash
 ```
 
