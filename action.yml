@@ -39,6 +39,6 @@ runs:
         source ./devel/setup.bash
         # find -L ./src/$REPO -name *.test | xargs -n1 rostest
         catkin run_tests -i --no-deps --no-status $REPO
-        catkin_test_results --verbose --all build || trap - ERR && exit 1
+        catkin_test_results --verbose --all build || (trap - ERR && exit 1)
       working-directory: ${{ env.WS_PATH }}
       shell: bash
