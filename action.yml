@@ -1,0 +1,46 @@
+name: rostest action
+description: 'build & test ros1 packages without initial install'
+
+outputs:
+  workspace-dir:
+    description: "catkin workspace path"
+    value: ${{ steps.setup_env.outputs.ws_dir }}
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/checkout@v2
+    - name: setup ENV
+      id: setup_env
+      run: |
+        echo "REPO_PATH=$PWD" >> $GITHUB_ENV
+        mkdir -p ../ros/src && ln -s $PWD ../ros/src/
+        cd ../ros && echo "WS_PATH=$PWD" >> $GITHUB_ENV && echo "::set-output name=ws_dir::$(echo $PWD)"
+        echo "REPO=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
+        echo "ROS_DISTRO=melodic" >> $GITHUB_ENV
+      shell: bash
+    - name: wstool setup
+      run: |
+        /usr/bin/wstool init src
+        find ${{ env.REPO_PATH }} -name *.rosinstall | xargs -n1 /usr/bin/wstool merge -y -t src 
+        /usr/bin/wstool up -t src -j 4
+        ls ${{ env.WS_PATH }}/src
+      shell: bash
+      working-directory: ${{ env.WS_PATH }}
+    - name: workspace setup
+      run: |
+        echo $ROS_DISTRO
+        sudo apt update
+        cd ${{ env.WS_PATH }}
+        ${{ github.action_path }}/scripts/rosdep_install.sh ${{ env.WS_PATH }} $ROS_DISTRO
+        ${{ github.action_path}}/scripts/catkin_build.sh $ROS_DISTRO
+      working-directory: ${{ env.WS_PATH }}
+      shell: bash
+
+    - name: rostest
+      run: |
+        source ./devel/setup.bash
+        # find -L ./src/$REPO -name *.test | xargs -n1 rostest
+        catkin run_tests -i --no-deps --no-status $REPO
+        catkin_test_results --verbose --all build || trap - ERR && exit 1
+      working-directory: ${{ env.WS_PATH }}
+      shell: bash
