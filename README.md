@@ -1,4 +1,4 @@
-# rostest composite run steps action
+# A composite github action to run rostest
 
 ## Usage
 You can use the rostest-composite-run-action in a Github Actions by configuring 
@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - id: rostest
-        uses: sbgisen/rostest-composite-run-action@v1
+        uses: sbgisen/rostest-composite-run-action@9e237a12ebee890fdf462a23ed75cabf0bc77d46
       - name: Clenaup workspace
         run: rm -rf ${{ steps.rostest.outputs.workspace-dir }}
         shell: bash
