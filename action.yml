@@ -19,10 +19,14 @@ runs:
       shell: bash
     - name: wstool setup
       run: |
+        # 再帰的に.rosinstallを検索
         /usr/bin/wstool init src
         find ${{ env.REPO_PATH }} -name *.rosinstall | xargs -n1 /usr/bin/wstool merge -y -t src 
         /usr/bin/wstool up -t src -j 4
-        ls ${{ env.WS_PATH }}/src
+        rm src/.rosinstall
+        /usr/bin/wstool init src
+        find ${{ env.REPO_PATH }} -name *.rosinstall | xargs -n1 /usr/bin/wstool merge -y -t src 
+        /usr/bin/wstool up -t src -j 4
       shell: bash
       working-directory: ${{ env.WS_PATH }}
     - name: workspace setup
