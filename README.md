@@ -1,5 +1,4 @@
 # rostest composite run steps action
-## 
 
 ## Usage
 You can use the rostest-composite-run-action in a Github Actions by configuring 
@@ -26,4 +25,3 @@ It supports only Ubuntu18.04(melodic)
 
 # Refs
 [複合実行ステップ アクションの作成](https://docs.github.com/ja/actions/creating-actions/creating-a-composite-run-steps-action)
->>>>>>> 913cc27 (add README.md)
